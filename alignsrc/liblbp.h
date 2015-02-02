@@ -11,12 +11,12 @@
 #ifndef _liblbp_h
 #define _liblbp_h
 
-#include "msvc-compat.h"
-
 #define LIBLBP_INDEX(ROW,COL,NUM_ROWS) ((COL)*(NUM_ROWS)+(ROW))
 #define LIBLBP_MIN(A,B) ((A) > (B) ? (B) : (A))
 
 //typedef long unsigned int t_index;
+#include <stdint.h>
+
 typedef uint32_t t_index;
 
 extern void liblbp_pyr_features_sparse(t_index *vec, uint32_t vec_nDim, uint32_t *img, uint16_t img_nRows, uint16_t img_nCols );

@@ -54,6 +54,7 @@
             const Size max_size = Size();
      
             if(cascade.empty() || image.empty()){
+                    cout<<"cascade or image empty"<<endl;
                     return Rect();
             }
      

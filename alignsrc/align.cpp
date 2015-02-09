@@ -121,8 +121,8 @@
             // Use square faces.
             //int desiredFaceWidth = 144;  //144
             //int desiredFaceHeight = desiredFaceWidth;
-			int desiredFaceWidth = 144;
-			int desiredFaceHeight = 144;
+			int desiredFaceWidth = 47;
+			int desiredFaceHeight = 55;
             Point2d leftEye = landmarks[LEFT_EYE_ALIGN];
             Point2d rightEye = landmarks[RIGHT_EYE_ALIGN];
      

@@ -29,6 +29,9 @@ class LogisticRegression(object):
         self.y_pred = T.argmax(self.p_y_given_x, axis=1)
         self.params = [self.W, self.b]
 
+    def prediction(self):
+        return self.y_pred
+
     def negative_log_likelihood(self, y):
         return -T.mean( T.log(self.p_y_given_x)[T.arange(y.shape[0]), y])
 
@@ -37,6 +40,7 @@ class LogisticRegression(object):
             raise TypeError('y should hava the same shape as self.y_pred',
                     ('y', target.type, 'y_pred', self.y_pred,type))
         if y.dtype.startswith('int'):
+            print(y)
             return T.mean(T.neq(self.y_pred, y))
         else:
             raise NotImplementedError()

@@ -15,8 +15,7 @@ def data_shuffle(origin_root):
     for folder_name in os.listdir(origin_root):
         folder_path = origin_root + folder_name
         label_index = len(map_label)
-        map_label[folder_name] = label_index
-        
+        map_label[label_index] = folder_name
         for file_name in os.listdir(folder_path):
             file_path = folder_path + '/' + file_name
             file_path_and_labels.append((file_path, label_index))
@@ -31,6 +30,27 @@ def train_valid(file_path_and_labels, rate=0.1):
     valid_files = file_path_and_labels[train_num:]
     return train_files, valid_files
 
+def make_one_image(file_path, batch_size):
+    image_size = (47,55,3) 
+    image_vector_len = numpy.prod(image_size)
+    img = Image.open(file_path)
+    arr = []
+    arr_img = numpy.asarray(img, )
+    arr_img = numpy.asarray(img, dtype='float64')
+    arr_img = arr_img.swapaxes(0,2).swapaxes(1,2)
+    vec_img = arr_img.reshape((image_vector_len, ))
+    for i in range(0, batch_size):
+        arr.append(vec_img)
+    arr = numpy.asarray(arr, dtype='float64')
+    return arr
+
+def make_one_image_vec(file_path, image_vector_len):
+    img = Image.open(file_path)
+    arr_img = numpy.asarray(img, dtype='float64')
+    arr_img = arr_img.swapaxes(0,2).swapaxes(1,2)
+    vec_img = arr_img.reshape((image_vector_len, ))
+    return vec_img
+
 def make_array(file_path_and_labels, image_size):
     image_vector_len = numpy.prod(image_size)
     arr = []
@@ -41,10 +61,7 @@ def make_array(file_path_and_labels, image_size):
     for file_path_and_label in file_path_and_labels:
         file_path, label = file_path_and_label
         labels.append(label)
-        img = Image.open(file_path)
-        arr_img = numpy.asarray(img, dtype='float64')
-        arr_img = arr_img.swapaxes(0,2).swapaxes(1,2)
-        vec_img = arr_img.reshape((image_vector_len, ))
+        vec_img = make_one_image_vec(file_path, image_vector_len)
         arr.append(vec_img)
         i += 1
         if i % 100 == 0:
@@ -76,8 +93,6 @@ if __name__ == '__main__':
     
     file_path_and_labels, map_label = data_shuffle(origin_root)
     train_files, valid_files = train_valid(file_path_and_labels, rate)
-    print len(map_label)
-    print len(file_path_and_labels)
     
     print 'make array ...'
     train_arr = make_array(train_files, image_size)
